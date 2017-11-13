@@ -3,6 +3,14 @@
 BUILD_DIR=$1
 CACHE_DIR=$2
 
+import_env() {
+  local name=$1
+  [ -f $ENV_DIR/$name ] && export "$name=$(< $ENV_DIR/$name)"
+}
+
+import_env ROS_USE
+import_env ROS_INSTALL
+
 mkdir -p $CACHE_DIR
 
 if [ -d $CACHE_DIR/.local ]; then
@@ -32,34 +40,19 @@ fi
 
 $ROSWELL --version
 
-if [ -f "$BUILD_DIR/.roswell-install-list" ]; then
-  for i in $(cat "$BUILD_DIR/.roswell-install-list")
-  do
-    echo "install $i"
-    $ROSWELL install $i
-  done
+if [ $ROS_USE ]; then
+    $ROSWELL use $ROS_USE
 else
-  echo "Skip .roswell-install-list"
+    echo "Using default roswell implementation"
 fi
 
-if [ -f "$BUILD_DIR/.roswell-use" ]; then
-  echo "use $(cat "$BUILD_DIR/.roswell-use")"
-  $ROSWELL use $(cat "$BUILD_DIR/.roswell-use")
+if [ $ROS_INSTALL ]; then
+    $ROSWELL install $ROS_INSTALL
 else
-  echo "Skip .roswell-use"
+    echo "No roswell packages to install"
 fi
 
 $ROSWELL run -- --version
-
-if [ -f "$BUILD_DIR/.roswell-load-system-list" ]; then
-  for i in $(cat "$BUILD_DIR/.roswell-load-system-list")
-  do
-    echo "load system $i"
-    $ROSWELL run -s "$i" -q
-  done
-else
-  echo "Skip .roswell-load-system-list"
-fi
 
 echo "Copy .local/"
 if [ ! -d $CACHE_DIR/.local ]; then
