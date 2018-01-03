@@ -2,7 +2,6 @@
 
 # this pack is valid for apps with an app.lisp in the root
 if [ -f $1/app.lisp ]; then
-  echo "Found app.lisp"
   exit 0
 else
   exit 1

@@ -2,7 +2,7 @@
 
 This is a generalized [Heroku Buildpack](https://devcenter.heroku.com/articles/buildpacks) for Common Lisp apps using [Roswell](https://github.com/roswell/roswell).
 
-Original work by gos-k: [heroku-bulidpack-roswell](https://github.com/gos-k/heroku-buildpack-roswell/blob/master/bin/compile). Inspired by José Santos: [heroku-buildpack-cl](https://github.com/jsmpereira/heroku-buildpack-cl).
+Original work by gos-k: [heroku-bulidpack-roswell](https://github.com/gos-k/heroku-buildpack-roswell). Inspired by José Santos: [heroku-buildpack-cl](https://github.com/jsmpereira/heroku-buildpack-cl).
 
 # Using Buildpack
 
@@ -44,3 +44,6 @@ heroku open
 # Procfile
 web: clackup --port $PORT app.lisp
 ```
+
+# References
+- [Heroku Buildpack API](https://devcenter.heroku.com/articles/buildpack-api#example-buildpacks)
